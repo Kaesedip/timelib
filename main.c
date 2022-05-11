@@ -6,109 +6,123 @@
  *
  *
  **/
-int tageProMonat[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-int jahr, monat, tag;
-int gesamtTage = 0;
-int checkForRightDate = 1;
 
-// Funktion zum Ueberpruefen, ob das Jahr ein Schaltjahr ist.
-int isSchaltjahr(int schaltJahr)
+
+/*Die Funktion bestimmt für einen gegebenen Monat eines gegebenen Jahres, wie viele Tage der Monat hat. Der 
+Wert des Monats muss zwischen 1 und 12 liegen. Schaltjahre werden berücksichtigt.*/
+int get_days_for_month(int month, int year){
+
+        int days_per_month = 0;
+        for (int i = 1 ; i< month; i++){
+
+                if(i == 2 && is_leapyear(year) == 1){
+                days_per_month += 29;
+                continue;
+            }
+                if (i % 2 == 0 ){
+                days_per_month += 30;
+                continue;
+            }
+                else if(i % 2 != 0 || month == 8){
+                days_per_month += 31;
+                continue;
+            }
+        }
+
+        return days_per_month;   
+}
+
+
+// Die Funktion überprüft, ob ein gegebenes Jahr nach den Regeln des gregorianischen 
+// Kalender ein Schaltjahr ist. Bei Jahreszahlen vor dem Jahr 1582 wird ein Fehler zurückgegeben. 
+int is_leapyear(int year)
 {
-    if (schaltJahr % 4 == 0)
+
+    if (year % 4 == 0)
     {
-        if (schaltJahr % 100 == 0)
-        {
-            if (schaltJahr % 400 == 0)
+        if (year % 100){
+            if (year % 400 == 0)
             {
-                tageProMonat[1] = 29;
-                return true;
+                return 1;
             }
             else
             {
-                return false;
+                return 0;
             }
         }
         else
         {
-            tageProMonat[1] = 29;
-            return true;
+            return 1;
         }
     }
     else
     {
-        return false;
+        return 0;
     }
 }
 
-// Nutzer gibt Daten ein
-int userInput()
-{
-    while (checkForRightDate)
-    {
 
-        printf("\nGeben Sie das Jahr ein: ");
-        scanf("%i", &jahr);
+/*Die Funktion überprüft, ob ein eingegebenes Datum gültig ist. Daten vor dem 1.1.1582 sind ungültig, genauso 
+wie alle Daten nach dem 31.12.2400.
+*/
+int exists_date(int day, int month, int year){
 
-        isSchaltjahr(jahr);
-
-        printf("\nGeben Sie den Monat ein: ");
-        scanf("\n %i", &monat);
-
-        // Ueberpruefen ob die Eingaben korrekt sind
-        if (monat > 12)
-        {
-            printf("Ungueltiger Wert fuer den Monat.");
-            continue;
+        int checkForRightDate = 0;
+        if (month > 12 || month < 1 || year < 1582 || year > 2400 || day > 31 || day < 1){
+            printf("Ungueltiges Datum");
+            return checkForRightDate = 0;
         }
 
-        printf("\nGeben Sie den Tag ein: ");
-        scanf("\n %i", &tag);
+        else if (is_leapyear(year) == 1 && day >= 30 && month == 2 || day >= 29 && month == 2 && is_leapyear(year) == 0){
 
-        // Ueberpruefen ob die Eingaben korrekt sind
-        if (tag > 31)
-        {
-            printf("Ungueltiger Wert fuer den Tag.");
+            printf("Ungueltiges Datum");
+            return checkForRightDate = 0;
+        }
 
-        }
-        else if (isSchaltjahr(jahr) && tag > 29 && monat == 2)
-        {
-            printf("Ungueltiger Wert fuer den Tag.");
-        }
-        else if (tag > 28 && monat == 2 && !isSchaltjahr(jahr))
-        {
-            printf("Ungueltiger Wert fuer den Tag.");
-        }
         else
         {
-            checkForRightDate = 0;
+             return checkForRightDate = 1;
         }
-    }
 }
 
-//Berechnung der bisherigen Tage in diesem Jahr
-int day_of_the_year(int monat, int tag)
+/*Die Funktion berechnet für ein gegebenes Datum des gregorianischen Kalenders bestehend aus Tag, Monat 
+und Jahr die Nummer des Tages, gezählt von Jahresbeginn (1. Januar) an. Schaltjahre werden bei der 
+Berechnung berücksichtigt. Ist das übergebene Datum ungültig, beträgt der Rückgabewert -1.*/
+int day_of_the_year(int month, int day, int year)
 {
-
-    if (monat == 1)
-    {
-        return tag;
-    }
-    else
-    {
-
-        for (int i = 1; i < monat; i++)
-        {
-            gesamtTage += tageProMonat[i - 1];
+    int days_of_year ;
+    if(month == 1){
+            return day;
         }
-        return gesamtTage += tag;
-    }
+        else{
+            
+            days_of_year = get_days_for_month(month,year) + day;
+            return days_of_year ;
+        }
 }
 
 
 int main()
-{
-    userInput();
-    isSchaltjahr(jahr);
-    printf("Tag des Jahres: %i\n", day_of_the_year(monat, tag));
+{   
+    int year, month, day;
+    int result = 0;
+    int checkForRightDate = 0;
+    while(checkForRightDate == 0){
+    
+        printf("\nGeben Sie das Jahr ein: ");
+        scanf("%i", &year);
+
+        is_leapyear(year);
+
+        printf("\nGeben Sie den Monat ein: ");
+        scanf("\n %i", &month);
+
+        printf("\nGeben Sie den Tag ein: ");
+        scanf("\n %i", &day);
+        checkForRightDate = exists_date(day,month,year);
+    }
+    result = day_of_the_year(month,day,year);
+    printf("%i Tage des Jahres .",result);
+    
     return 0;
 }
