@@ -3,8 +3,15 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+struct date{
+    int year;
+    int month;
+    int day;
+};
+
 /*Die Funktion bestimmt für einen gegebenen Monat eines gegebenen Jahres, wie viele Tage der Monat hat. Der
 Wert des Monats muss zwischen 1 und 12 liegen. Schaltjahre werden berücksichtigt.*/
+
 int get_days_for_month(int month, int year){
 
 
@@ -32,6 +39,7 @@ int get_days_for_month(int month, int year){
 
 // Die Funktion überprüft, ob ein gegebenes Jahr nach den Regeln des gregorianischen
 // Kalender ein Schaltjahr ist. Bei Jahreszahlen vor dem Jahr 1582 wird ein Fehler zurückgegeben.
+
 int is_leapyear(int year){
     if(year < 1582){
         return -1;
@@ -86,6 +94,7 @@ int exists_date(int day, int month, int year){
 /*Die Funktion berechnet für ein gegebenes Datum des gregorianischen Kalenders bestehend aus Tag, Monat
 und Jahr die Nummer des Tages, gezählt von Jahresbeginn (1. Januar) an. Schaltjahre werden bei der
 Berechnung berücksichtigt. Ist das übergebene Datum ungültig, beträgt der Rückgabewert -1.*/
+
 int day_of_the_year(int month, int day, int year){
     int days_of_year ;
     if(month == 1){
