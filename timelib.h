@@ -1,14 +1,20 @@
 #ifndef TIMELIB_H_INCLUDED
 #define TIMELIB_H_INCLUDED
-#include "timelib.c"
 
+//Timelib Bibliothek
 
-int get_days_for_month(int month, int year);
+struct date{
+    int year;
+    int month;
+    int day;
+};
 
-int is_leapyear(int year);
+int get_days_for_month(struct date datum );
 
-int exists_date(int day, int month, int year);
+int is_leapyear(struct date datum );
 
-int day_of_the_year(int month, int day, int year);
+int exists_date(struct date datum );
+
+int day_of_the_year(struct date datum);
 
 #endif // TIMELIB_H_INCLUDED

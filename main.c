@@ -2,29 +2,26 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "timelib.h"
+
 /**
  *Thomas Siedler
  *timelib Project
  **/
 
-
-struct date{
-    int year;
-    int month;
-    int day;
-};
-
-int main(){
+int main()
+{
 
     struct date datum ;
     int checkForRightDate = 0;
 
-    while(checkForRightDate == 0){
+    do
+    {
 
         printf("\nGeben Sie das Jahr ein: ");
         scanf("%i", &datum.year);
 
-        is_leapyear(datum.year);
+        //prueft ob das eingebene Jahr ein Schaltjahr ist.
+        is_leapyear(datum);
 
         printf("\nGeben Sie den Monat ein: ");
         scanf("\n %i", &datum.month);
@@ -32,9 +29,14 @@ int main(){
         printf("\nGeben Sie den Tag ein: ");
         scanf("\n %i", &datum.day);
 
-        checkForRightDate = exists_date(datum.day, datum.month, datum.year);
+        //prueft ob der Monat und der Tag existiert
+        checkForRightDate = exists_date(datum);
+
     }
-    printf("%i Tage des Jahres .", day_of_the_year(datum.month, datum.day, datum.year));
+    while(checkForRightDate == 0) ;
+
+
+    printf("%i Tage des Jahres .", day_of_the_year(datum));
 
     return 0;
 }

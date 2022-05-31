@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1653980350 source:c:\users\thomas\onedrive\dokumente\ausbildung fachinformatiker\1. ausbildungsjahr\lernfeld 5\timelib\main.c
+	<stdio.h>
+	<stdbool.h>
+	<stdlib.h>
+	"timelib.h"
+
+1653980081 c:\users\thomas\onedrive\dokumente\ausbildung fachinformatiker\1. ausbildungsjahr\lernfeld 5\timelib\timelib.h
+
+1653980080 source:c:\users\thomas\onedrive\dokumente\ausbildung fachinformatiker\1. ausbildungsjahr\lernfeld 5\timelib\timelib.c
+	"timelib.h"
+	<stdio.h>
+	<stdbool.h>
+	<stdlib.h>
+
